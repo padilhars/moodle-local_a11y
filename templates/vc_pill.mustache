@@ -1,0 +1,50 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_a11y/vc_pill
+
+    The Voice Commands feature's status pill (microphone icon + label).
+    `label` is plain text content, HTML-escaped by Mustache output tags like
+    any other variable - same safety as the .textContent assignment this
+    template replaces.
+
+    @description Icon + label markup for the Voice Commands status pill.
+    @package    Moodle
+    @subpackage Plugin a11y
+    @author     Rodrigo Padilha Silveira <padilhars@gmail.com>
+    @author     Jerônimo Medina Madruga <jeronimo.madruga@gmail.com>
+    @copyright  Universidade Federal de Pelotas - UFPel
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+    @version    0.1.0
+    @since      0.1.0
+
+    Context variables required for this template:
+    * label - text shown next to the icon (e.g. "Listening…")
+
+    Example context (json):
+    {
+        "label": "Listening…"
+    }
+}}
+<span class="local-a11y-sr-pill__icon">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" x2="12" y1="19" y2="22"/>
+    </svg>
+</span>
+<span class="local-a11y-sr-pill__hint" data-region="text">{{label}}</span>

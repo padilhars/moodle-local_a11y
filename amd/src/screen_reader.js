@@ -29,6 +29,7 @@
  */
 
 import {getString} from 'core/str';
+import Templates from 'core/templates';
 
 const READABLE_SELECTOR = 'h1,h2,h3,h4,h5,h6,p,a,button,li,td,th,span,label,figcaption,[data-a11y-readable]';
 
@@ -39,22 +40,19 @@ let onClick = null;
 
 /**
  * Build and append the status pill DOM element (icon + live-region body).
+ * The icon/body markup itself is a Moodle template (templates/sr_pill.mustache),
+ * not a JS-built string - this just wires it into a fresh container.
  *
- * @return {HTMLElement} The created pill container, already appended to <body>.
+ * @return {Promise<HTMLElement>} The created pill container, already appended to <body>.
  */
-const buildPill = () => {
+const buildPill = async() => {
     const container = document.createElement('div');
     container.className = 'local-a11y-root local-a11y-sr-pill';
     // role="status": a live status overlay outside any page landmark is
     // exempt from axe's "region" rule when it has an explicit live-region
     // role, and it is one - Moodle uses the same pattern for its own toasts.
     container.setAttribute('role', 'status');
-    container.innerHTML = '<span class="local-a11y-sr-pill__icon">'
-        + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" '
-        + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-        + '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>'
-        + '<path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>'
-        + '<span data-region="body"></span>';
+    container.innerHTML = await Templates.render('local_a11y/sr_pill', {});
     document.body.appendChild(container);
     return container;
 };
@@ -152,7 +150,7 @@ export const start = async() => {
     if (pill) {
         return;
     }
-    pill = buildPill();
+    pill = await buildPill();
     await renderIdle();
 
     onOver = (e) => setHoverOutline(findTarget(e));

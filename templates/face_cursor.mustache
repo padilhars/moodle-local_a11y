@@ -1,0 +1,56 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_a11y/face_cursor
+
+    Face Navigation's virtual cursor: a dot with a dwell-progress ring
+    around it. The ring's stroke-dashoffset is updated per frame directly
+    via the DOM API (amd/src/face_navigation.js's setDwellProgress()), not
+    through this template - re-rendering per frame would be far too slow
+    for an animation loop, so only the static shell lives here.
+
+    @description Markup for Face Navigation's virtual cursor (dot + dwell ring).
+    @package    Moodle
+    @subpackage Plugin a11y
+    @author     Rodrigo Padilha Silveira <padilhars@gmail.com>
+    @author     Jerônimo Medina Madruga <jeronimo.madruga@gmail.com>
+    @copyright  Universidade Federal de Pelotas - UFPel
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+    @version    0.1.0
+    @since      0.1.0
+
+    Context variables required for this template:
+    * size - cursor box size in pixels (width/height of the SVG)
+    * radius - the dwell ring's radius in pixels
+    * circumference - the dwell ring's circumference in pixels (2*pi*radius),
+      used as the ring's full stroke-dasharray/stroke-dashoffset
+
+    Example context (json):
+    {
+        "size": 40,
+        "radius": 18,
+        "circumference": 113.1
+    }
+}}
+<svg width="{{size}}" height="{{size}}" viewBox="0 0 {{size}} {{size}}"
+    style="position:absolute;top:0;left:0;transform:rotate(-90deg)" aria-hidden="true">
+    <circle cx="{{halfsize}}" cy="{{halfsize}}" r="{{radius}}"
+        fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"
+        stroke-dasharray="{{circumference}}" stroke-dashoffset="{{circumference}}"/>
+</svg>
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;
+    border-radius:50%;background:#3b82f6;box-shadow:0 0 0 3px white,0 2px 12px rgba(0,0,0,.5)"></div>

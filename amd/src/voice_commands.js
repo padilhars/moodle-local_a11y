@@ -33,6 +33,7 @@
  */
 
 import {getString} from 'core/str';
+import Templates from 'core/templates';
 
 let recognition = null;
 let pill = null;
@@ -90,24 +91,18 @@ const rememberPrivacyAck = () => {
 
 /**
  * Build and append the status pill DOM element showing the given label.
+ * The icon/label markup itself is a Moodle template (templates/vc_pill.mustache),
+ * not a JS-built string - `label` is passed through as template context,
+ * which Mustache HTML-escapes the same way a .textContent assignment would.
  *
- * @param {String} label The text to show in the pill (e.g. "Ouvindo…").
- * @return {HTMLElement} The created pill container, already appended to <body>.
+ * @param {String} label The text to show in the pill (e.g. "Listening…").
+ * @return {Promise<HTMLElement>} The created pill container, already appended to <body>.
  */
-const buildPill = (label) => {
+const buildPill = async(label) => {
     const el = document.createElement('div');
     el.className = 'local-a11y-root local-a11y-sr-pill';
     el.setAttribute('role', 'status');
-    // Static, trusted markup only via innerHTML; the (currently always
-    // static, but caller-supplied) label is set via textContent below so
-    // this stays safe even if a future caller passes dynamic text.
-    el.innerHTML = '<span class="local-a11y-sr-pill__icon">'
-        + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" '
-        + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-        + '<rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/>'
-        + '<line x1="12" x2="12" y1="19" y2="22"/></svg></span>'
-        + '<span class="local-a11y-sr-pill__hint" data-region="text"></span>';
-    el.querySelector('[data-region="text"]').textContent = label;
+    el.innerHTML = await Templates.render('local_a11y/vc_pill', {label});
     document.body.appendChild(el);
     return el;
 };
@@ -275,7 +270,7 @@ export const start = async(cb) => {
 
     const Ctor = getSpeechRecognitionCtor();
     if (!Ctor) {
-        pill = buildPill(await getString('vc_notsupported', 'local_a11y'));
+        pill = await buildPill(await getString('vc_notsupported', 'local_a11y'));
         return;
     }
 
@@ -301,7 +296,7 @@ export const start = async(cb) => {
     }
 
     listeningLabel = await getString('vc_listening', 'local_a11y');
-    pill = buildPill(listeningLabel);
+    pill = await buildPill(listeningLabel);
 
     recognition = new Ctor();
     recognition.continuous = true;

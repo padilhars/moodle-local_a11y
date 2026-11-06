@@ -1,0 +1,48 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_a11y/face_hud_error
+
+    Face Navigation HUD's error state shell: a translated title, plus an
+    empty region for the error detail. The error detail itself is set
+    afterwards via .textContent (amd/src/face_navigation.js's renderError()),
+    never through this template, because it can carry untrusted text (a
+    caught error's own message) - textContent needs no escaping logic to
+    get right, unlike interpolating it into markup.
+
+    @description Markup shell for Face Navigation HUD's error state.
+    @package    Moodle
+    @subpackage Plugin a11y
+    @author     Rodrigo Padilha Silveira <padilhars@gmail.com>
+    @author     Jerônimo Medina Madruga <jeronimo.madruga@gmail.com>
+    @copyright  Universidade Federal de Pelotas - UFPel
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+    @version    0.1.0
+    @since      0.1.0
+
+    Context variables required for this template:
+    * errortitle - the already-translated "Error" heading (face_error lang string)
+
+    Example context (json):
+    {
+        "errortitle": "Error"
+    }
+}}
+<div style="padding:12px">
+    <div style="font-weight:600;color:#b91c1c;margin-bottom:2px">{{errortitle}}</div>
+    <div data-region="error-msg" style="font-size:11px;color:#6b7280;word-break:break-word"></div>
+</div>
