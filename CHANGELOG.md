@@ -4,6 +4,20 @@ All notable changes to `local_a11y` are documented here.
 
 ## [Unreleased]
 
+## [1.2.5] - 2026-11-06
+
+Addresses all 5 issues opened by the Moodle Plugins Directory human reviewer on the v1.2.4 submission (see DECISIONS.md D106 for the full rationale of each):
+
+### Added
+
+- An English section at the top of README.md (plugin description, authorship/copyright, requirements, installation), so international administrators/reviewers can evaluate the plugin without reading Portuguese. The existing Portuguese README content is unchanged below it.
+
+### Changed
+
+- Clarified the copyright history in README.md: the institutional copyright holder is Universidade Federal de Pelotas - UFPel, not a separate "A11y for Moodle project" entity - that name is only ever the plugin's own product name. An earlier development-time placeholder notice has been consistently replaced across the codebase.
+- Translated all genuinely-Portuguese code comments/docblocks to English, across `db/access.php`, `settings.php`, `styles.css`, `classes/options.php`, `classes/profiles.php`, `classes/config.php`, `classes/output/renderer.php` and 6 `amd/src/*.js` files. Did not touch `lang/pt_br/local_a11y.php` (the real pt-BR translation) or the Portuguese voice-command phrases/keyboard-accent data that are functional content, not comments.
+- `amd/src/face_navigation.js`, `amd/src/screen_reader.js` and `amd/src/voice_commands.js` now build their dynamic UI (status pills, the virtual cursor's dwell ring, the Face Navigation HUD's loading/error/active-status fragments) from 7 new Mustache templates rendered via `core/templates`, instead of concatenating HTML strings for `innerHTML`.
+
 ## [1.2.4] - 2026-10-22
 
 Reenvio sem nenhuma mudança funcional de código - apenas bump de versão. Motivo: a submissão da v1.2.3 ao Moodle Plugins directory voltou com "2 test problems found" (`phplint`/`validate`, ambos com "Log file not found", sem nenhum detalhe real de erro), enquanto a mesma `moodle-plugin-ci` rodando no GitHub Actions deste repositório, no mesmo commit/tag, passou 100% limpa nas 12 combinações da matriz (PHP 8.3/8.4 × MOODLE_500/502/503_STABLE × Postgres/MariaDB), incluindo `phplint` e `validate`. Isso indica uma falha pontual de infraestrutura no runner de CI do próprio moodle.org, não um problema real no plugin. O formulário de submissão do marketplace não oferece opção de "reexecutar testes", apenas de enviar uma nova versão - este release existe só para permitir um novo envio.

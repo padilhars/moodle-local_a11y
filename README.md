@@ -1,3 +1,39 @@
+# A11Y for Moodle
+
+[![License: GPL v3+](https://img.shields.io/badge/license-GPL%20v3%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Moodle](https://img.shields.io/badge/Moodle-5.0%2B-orange.svg)](https://moodle.org)
+[![PHP](https://img.shields.io/badge/PHP-8.3%2B-777bb4.svg)](https://www.php.net)
+
+*This section is in English, for international administrators evaluating the plugin. The rest of this README (starting at [A11Y for Moodle - Plugin de Acessibilidade para Moodle](#a11y-for-moodle---plugin-de-acessibilidade-para-moodle)) is in Portuguese, the primary language of the development team and of the institution this plugin was built for.*
+
+An accessibility plugin for Moodle 5.0+ that adds a floating button (FAB) and a panel with **30 accessibility options** organised into 5 categories and **9 ready-made profiles**, available on every page of the site - no third-party browser extension or custom theme required.
+
+## Authorship & copyright
+
+Developed by two Brazilian federal civil servants at Universidade Federal de Pelotas (UFPel):
+
+- **Rodrigo Padilha Silveira** — <padilhars@gmail.com>
+- **Jerônimo Medina Madruga** — <jeronimo.madruga@gmail.com>
+
+Copyright is held by **Universidade Federal de Pelotas - UFPel**, not by the individual authors, and not by any separate legal entity. Early development commits used a placeholder copyright notice ("2026 A11y for Moodle project") before this was formalised across the codebase; "A11Y for Moodle"/"A11y for Moodle project" is only ever the plugin's own product/display name, never a separate organisation. Under Brazilian federal public-service law, software the authors developed in their capacity as UFPel employees belongs to the institution, not to them individually - so every file in this repository now consistently credits UFPel as the copyright holder, and the two individuals as `@author`.
+
+## Requirements
+
+- Moodle 5.0 to 5.3 (range confirmed by real CI against the `MOODLE_500_STABLE`, `MOODLE_502_STABLE` and `MOODLE_503_STABLE` branches - see `version.php`'s `$plugin->supported` and `DECISIONS.md` D92, D95-D99; test against other versions before assuming compatibility).
+- PHP 8.3+ (Moodle 5.0+ core itself already requires this minimum).
+- No packaged third-party dependencies for installing the plugin itself (the Atkinson Hyperlegible, Lexend and OpenDyslexic fonts, and MediaPipe's WASM runtime, are all bundled locally - nothing is downloaded from a third-party CDN for those). Two real runtime exceptions: Face Navigation's face-tracking model (fetched live from Google's CDN, with SHA-256 integrity verification) and the browser's own native `SpeechRecognition` API used by Voice Commands (see "Voice Commands and speech recognition", further down in the Portuguese section, for the full disclosure).
+
+## Installation
+
+1. Extract `local_a11y.zip` so the `a11y` directory ends up at `<moodleroot>/local/a11y` (on Moodle's modern `public/`-webroot layout, that's `<moodleroot>/public/local/a11y`).
+2. Visit **Site administration → Notifications** to complete installation, or run:
+   ```bash
+   php admin/cli/upgrade.php --non-interactive
+   ```
+3. Done - the accessibility button now appears on every page, for every user (including guests, by default).
+
+---
+
 # A11Y for Moodle - Plugin de Acessibilidade para Moodle
 
 [![Licença: GPL v3+](https://img.shields.io/badge/licença-GPL%20v3%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
