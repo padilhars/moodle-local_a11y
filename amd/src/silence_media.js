@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "Silenciar Mídia" silences audio/video that plays without the user
+ * "Silence Media" silences audio/video that plays without the user
  * explicitly starting it. A sibling of amd/src/pause_media.js rather than
  * an extension of it (see DECISIONS.md D40): the two options are
  * independently toggleable, target overlapping element types but have
@@ -24,7 +24,7 @@
  * which pause_media.js has no reason to touch.
  *
  * <video> is only ever muted here, never paused (D46 - it used to pause
- * too, which duplicated exactly what "Pausar Animações" already does to
+ * too, which duplicated exactly what "Pause Animations" already does to
  * <video>, with no benefit: a muted video makes no sound whether it's
  * playing or not). <audio> has no visual/motion dimension for
  * pause_media.js to ever cover, so it keeps the original mute+pause
@@ -56,7 +56,7 @@
  * was built with `enablejsapi=1`; this module cannot rewrite an existing
  * iframe's `src` to add that (would force a reload, losing playback state -
  * worse than doing nothing) so a command silently no-ops on an embed that
- * does not support it, matching the "degrade em silêncio" requirement
+ * does not support it, matching the "degrade silently" requirement
  * without any special-case code.
  *
  * @module     local_a11y/silence_media
@@ -90,7 +90,7 @@ const shouldSilence = (el) => el.autoplay || !el.paused;
 /**
  * Silence a single <audio>/<video> element, if it meets shouldSilence().
  * <video> is muted only, left playing - see the module docblock (D46) for
- * why pausing it too would just duplicate Pausar Animações. <audio> is
+ * why pausing it too would just duplicate Pause Animations. <audio> is
  * muted and paused: nothing else in this plugin ever stops it. Idempotent.
  *
  * @param {HTMLMediaElement} el The <audio> or <video> element to silence.
@@ -286,7 +286,7 @@ export const stop = () => {
 };
 
 /**
- * Toggle Silenciar Mídia on/off.
+ * Toggle Silence Media on/off.
  *
  * @param {Boolean} isActive Whether media should be silenced.
  * @return {void}

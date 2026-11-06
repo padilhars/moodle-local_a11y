@@ -37,6 +37,7 @@
  */
 
 import {getStrings} from 'core/str';
+import Templates from 'core/templates';
 
 const MP_CDN   = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18';
 // D78, round 2: the WASM fileset (both SIMD and non-SIMD variants -
@@ -255,7 +256,7 @@ let cache = null;
 // access; this module requested camera access with no equivalent notice,
 // even though it also loads third-party code (MediaPipe, see MP_CDN above)
 // to do so - an asymmetry with no good reason, now fixed the same way.
-// Unlike Comandos por Voz, camera *video* itself never leaves the browser
+// Unlike Voice Commands, camera *video* itself never leaves the browser
 // (confirmed: no fetch()/XHR/WebSocket/sendBeacon anywhere in this module
 // touches the MediaStream - only the MediaPipe SDK's own code/model files
 // are fetched, see fetchVerifiedBytes() above) - the notice text reflects that
@@ -501,10 +502,14 @@ const RING_CIRC = 2 * Math.PI * RING_R;
 
 /**
  * Build and append the virtual cursor element (dot + dwell-progress ring).
+ * The dot/ring markup itself is a Moodle template (templates/face_cursor.mustache);
+ * only this static shell is built here - the ring's progress is updated
+ * per animation frame directly via the DOM API (setDwellProgress() below),
+ * never by re-rendering the template.
  *
- * @return {HTMLElement} The created cursor container, already appended to <body>.
+ * @return {Promise<HTMLElement>} The created cursor container, already appended to <body>.
  */
-const buildCursor = () => {
+const buildCursor = async() => {
     const el = document.createElement('div');
     el.className = 'local-a11y-root local-a11y-face-cursor';
     el.setAttribute('aria-hidden', 'true');
@@ -513,14 +518,12 @@ const buildCursor = () => {
         'width:' + CURSOR_SIZE + 'px', 'height:' + CURSOR_SIZE + 'px',
         'transform:translate(-50%,-50%)', 'display:none',
     ].join(';');
-    // Dwell ring
-    el.innerHTML = '<svg width="' + CURSOR_SIZE + '" height="' + CURSOR_SIZE + '" viewBox="0 0 ' +
-        CURSOR_SIZE + ' ' + CURSOR_SIZE + '" style="position:absolute;top:0;left:0;transform:rotate(-90deg)" aria-hidden="true">' +
-        '<circle cx="' + (CURSOR_SIZE / 2) + '" cy="' + (CURSOR_SIZE / 2) + '" r="' + RING_R + '"' +
-        ' fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"' +
-        ' stroke-dasharray="' + RING_CIRC + '" stroke-dashoffset="' + RING_CIRC + '"/></svg>' +
-        '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;' +
-        'border-radius:50%;background:#3b82f6;box-shadow:0 0 0 3px white,0 2px 12px rgba(0,0,0,.5)"></div>';
+    el.innerHTML = await Templates.render('local_a11y/face_cursor', {
+        size: CURSOR_SIZE,
+        halfsize: CURSOR_SIZE / 2,
+        radius: RING_R,
+        circumference: RING_CIRC,
+    });
     document.body.appendChild(el);
     return el;
 };
@@ -545,14 +548,10 @@ const setDwellProgress = (pct) => {
 /**
  * Render the HUD's "loading model" state.
  *
- * @return {void}
+ * @return {Promise<void>}
  */
-const renderLoading = () => {
-    hud.innerHTML = '<style>@keyframes a11y-face-spin{to{transform:rotate(360deg)}}</style>' +
-        '<div style="padding:12px;color:#6b7280;display:flex;align-items:center;gap:8px">' +
-        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"' +
-        ' stroke-linecap="round" style="animation:a11y-face-spin 1s linear infinite;flex-shrink:0">' +
-        '<path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>' + t('loading') + '</div>';
+const renderLoading = async() => {
+    hud.innerHTML = await Templates.render('local_a11y/face_hud_loading', {loadingtext: t('loading')});
 };
 
 /**
@@ -565,15 +564,15 @@ const renderLoading = () => {
  * position, but a single future refactor moving it into an attribute value
  * would make that same incomplete escaping exploitable. Fixed the same way
  * every other dynamic-content path in this module/plugin already does it:
- * static markup via innerHTML, the untrusted part via .textContent (which
- * needs no escaping logic to get right, incomplete or otherwise).
+ * static markup via a template (templates/face_hud_error.mustache), the
+ * untrusted part via .textContent (which needs no escaping logic to get
+ * right, incomplete or otherwise) - never passed to the template itself.
  *
  * @param {String} msg The error message to display.
- * @return {void}
+ * @return {Promise<void>}
  */
-const renderError = (msg) => {
-    hud.innerHTML = '<div style="padding:12px"><div style="font-weight:600;color:#b91c1c;margin-bottom:2px">' +
-        t('error') + '</div><div data-region="error-msg" style="font-size:11px;color:#6b7280;word-break:break-word"></div></div>';
+const renderError = async(msg) => {
+    hud.innerHTML = await Templates.render('local_a11y/face_hud_error', {errortitle: t('error')});
     hud.querySelector('[data-region="error-msg"]').textContent = String(msg);
 };
 
@@ -656,9 +655,9 @@ const renderCalibrating = () => {
  * Render the HUD's "active" state: webcam preview with a live indicator,
  * status text, usage hints, sensitivity slider, and a Stop button.
  *
- * @return {void}
+ * @return {Promise<void>}
  */
-const renderActive = () => {
+const renderActive = async() => {
     hud.innerHTML = '';
 
     const preview = document.createElement('div');
@@ -680,14 +679,15 @@ const renderActive = () => {
 
     const statusRow = document.createElement('div');
     statusRow.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:8px';
-    statusRow.innerHTML = '<span style="color:#22c55e;font-weight:700">●</span>' +
-        '<span style="font-weight:500">' + t('active') + '</span>';
+    statusRow.innerHTML = await Templates.render('local_a11y/face_status_row', {activetext: t('active')});
     body.appendChild(statusRow);
 
     const hints = document.createElement('div');
     hints.style.cssText = 'color:#6b7280;margin-bottom:10px;line-height:1.6';
-    hints.innerHTML = '<div style="margin-bottom:4px">🖱️ ' + t('click') + '</div>'
-        + '<div>↕️ ' + t('scroll') + '</div>';
+    hints.innerHTML = await Templates.render('local_a11y/face_hints', {
+        clicktext: t('click'),
+        scrolltext: t('scroll'),
+    });
     body.appendChild(hints);
 
     const sensLabel = document.createElement('label');
@@ -739,9 +739,9 @@ const renderActive = () => {
  * @param {Boolean} recapture True to capture a fresh neutral pose on the next
  *   frame (Calibrate button); false to keep the (already restored) neutral
  *   pose when resuming after navigating to a new page.
- * @return {void}
+ * @return {Promise<void>}
  */
-const enterActive = (recapture) => {
+const enterActive = async(recapture) => {
     captureNext = recapture;
     cursorPos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
     vel = {vx: 0, vy: 0};
@@ -751,7 +751,7 @@ const enterActive = (recapture) => {
         cursorEl.style.top = cursorPos.y + 'px';
         cursorEl.style.display = 'block';
     }
-    renderActive();
+    await renderActive();
     animFrame = requestAnimationFrame(detect);
 };
 
@@ -759,7 +759,7 @@ const enterActive = (recapture) => {
  * Calibrate button handler: capture a fresh neutral pose and enter the
  * active state.
  *
- * @return {void}
+ * @return {Promise<void>}
  */
 const calibrate = () => enterActive(true);
 
@@ -978,8 +978,8 @@ export const start = async(cb) => {
     }
 
     hud      = buildHud();
-    cursorEl = buildCursor();
-    renderLoading();
+    cursorEl = await buildCursor();
+    await renderLoading();
 
     // Quality/performance audit finding, fixed (audit/03-qualidade-desempenho.md
     // section 2.1): this used to be a raw .then() chain with a Promise
@@ -1046,12 +1046,12 @@ export const start = async(cb) => {
             if (typeof calib.sensitivity === 'number') {
                 sensitivity = calib.sensitivity;
             }
-            enterActive(false);
+            await enterActive(false);
         } else {
             renderCalibrating();
         }
     } catch (e) {
-        renderError(mapErrorMessage(e));
+        await renderError(mapErrorMessage(e));
     }
 };
 

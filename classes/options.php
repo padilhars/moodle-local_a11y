@@ -48,7 +48,7 @@ class options {
             // getting Lexend - same "toggle outgrew a boolean" pattern
             // already used for focusMode (D52). See DECISIONS.md D75.
             // Desckey removed (D75, at the user's request) - the label
-            // itself ("Fonte para Dislexia") already makes clear what this
+            // itself ("Dyslexia-Friendly Font") already makes clear what this
             // does; the stepper's own level labels (Lexend/OpenDyslexic)
             // cover which fonts are on offer.
             //

@@ -148,8 +148,8 @@ JS;
      * admin-configurable page-effect colours (config::get_effect_colors())
      * as CSS custom properties on :root - --a11y-highlight-titles-color,
      * --a11y-highlight-links-color, --a11y-highlight-buttons-color
-     * (Destacar Títulos/Links/Botões, independently configurable) and
-     * --a11y-guide-color (Guia de Leitura) - consumed by the matching
+     * (Highlight Titles/Links/Buttons, independently configurable) and
+     * --a11y-guide-color (Reading Guide) - consumed by the matching
      * rules in styles.css. Custom-property inheritance resolves from
      * wherever they're declared down through the whole DOM regardless of
      * stylesheet load order, so an early <head> declaration reaches rules

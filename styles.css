@@ -136,7 +136,7 @@ Styleguide 2.
      used as plain hex instead of a token (header/footer/search bar
      backgrounds, hover backgrounds, category/section-heading label
      colours) - added here (same literal values, so nothing about the
-     default look changes) purely so Contraste (D37) has something to
+     default look changes) purely so Contrast (D37) has something to
      override; every occurrence of these exact hex values further down
      was swapped for the matching var(). */
     --a11y-surface-subtle: #f4f4f5;
@@ -185,7 +185,7 @@ Styleguide 2.
    `cursor` reset below is a defensive backstop for that (matching
    _design-reference/a11y-effects.css's own opt-out block).
 
-   D37 - Cores e Contraste (Inverter/Mudar Cores/Saturação/Contraste) is a
+   D37 - Color & Contrast (Invert/Color Adjustment/Saturation/Contrast) is a
    deliberate EXCEPTION, at the user's explicit request: those 4 options
    now DO reach our own FAB/panel/overlay/reading-guide/reading-mask/
    vk/sr-pill (every `.local-a11y-root` element), same as any Moodle page
@@ -200,7 +200,7 @@ Styleguide 2.
    position:fixed containing-block risk D31/D33 were about: every
    `.local-a11y-root` element here is a top-level sibling appended
    straight to <body> (never nested inside another one), so none of them
-   ever becomes another one's containing block. Contraste's recolouring
+   ever becomes another one's containing block. Contrast's recolouring
    works differently (design-token overrides, not `filter`) - see the
    dedicated `.local-a11y-root` blocks inside each body.a11y-contrast-N
    rule further down. */
@@ -989,8 +989,8 @@ Styleguide 5.6.
 /* Moodle core styles every [role="button"] (which .local-a11y-option is)
    with a focus ring on plain :focus, not just :focus-visible - so mouse
    clicks show it too, not only keyboard nav. For the 7 stepper options
-   (Tamanho do Texto, Altura da Linha, Espaçamento do Texto, Contraste,
-   Mudar Cores, Saturação, Cursor) re-clicking while already active cycles
+   (Text Size, Line Height, Text Spacing, Contrast,
+   Color Adjustment, Saturation, Cursor) re-clicking while already active cycles
    to another level without otherwise changing much about the row, so that
    ring reappearing read as an odd little flash; amd/src/panel.js now
    flashes the background instead (see .local-a11y-option--pulse below).
@@ -1579,7 +1579,7 @@ body.a11y-readable-font footer#page-footer,
 body.a11y-readable-font footer#page-footer *:not(.icon, .fa, [class*="fa-"]) {
     font-family: 'Atkinson Hyperlegible', system-ui, sans-serif !important;
 }
-/* Fonte para Dislexia (D75): grew from a single-font toggle into a 2-level
+/* Dyslexia-Friendly Font (D75): grew from a single-font toggle into a 2-level
    stepper (1 = Lexend, 2 = OpenDyslexic) so the user can pick between two
    fonts researched for dyslexia, instead of only ever getting Lexend - see
    DECISIONS.md D75. Each level gets its own font-family rule; the
@@ -1991,9 +1991,9 @@ body.a11y-text-align-4 .drawer-right * {
 }
 
 /* Hide Images
-   D44: fully hidden, no placeholder - a pedido do usuário. An earlier
+   D44: fully hidden, no placeholder - at the user's request. An earlier
    version kept the image's layout space reserved (visibility:hidden) and
-   filled the gap with a striped background + "Imagem oculta" badge (via
+   filled the gap with a striped background + "Hidden image" badge (via
    amd/src/hide_images.js, since visibility:hidden on the image itself
    also hides whatever it would have painted, and a void/replaced element
    like <img>/<video> can't host children of its own to paint instead).
@@ -2069,7 +2069,7 @@ body.a11y-pause-animations .drawer-right *::after {
    of its own: a plain <span>'s default `inline` is exactly right here: any
    other value would change the page's own line-wrapping.
 
-   The <b> weight fight: Fonte para Dislexia (Styleguide 10.1) sets
+   The <b> weight fight: Dyslexia-Friendly Font (Styleguide 10.1) sets
    `font-weight: 500 !important` on a `#page *` wildcard - specificity
    (1 id, 2 classes, 1 type) - which would otherwise beat a plain
    `b { font-weight: 700 }` and flatten the bold prefix back down whenever
@@ -2078,7 +2078,7 @@ body.a11y-pause-animations .drawer-right *::after {
    specificity as that wildcard, plus its own extra class+type on top, so
    it always wins regardless of declaration order - (1 id, 2 classes,
    2 types) beats (1 id, 2 classes, 1 type). Separately: Lexend (the font
-   Fonte para Dislexia switches to) is registered as a *variable* font
+   Dyslexia-Friendly Font switches to) is registered as a *variable* font
    whose @font-face (Styleguide 1) only spans weight 400-600 - asking it
    for 700 gets silently clamped, so the rule for when that option is also
    active asks for 600 (Lexend's real maximum) instead, so the bold prefix
@@ -2144,15 +2144,15 @@ Styleguide 11.
    are *siblings* of #page, not descendants of it - #page-wrapper is the
    closest real ancestor that contains all of them. Scoping to #page alone
    (as an earlier fix did - see DECISIONS.md D14) left that chrome
-   completely untouched by Contraste. Contrast only ever swaps colours
+   completely untouched by Contrast. Contrast only ever swaps colours
    (never `filter`), so #page-wrapper is safe to use as a shared ancestor
-   here - unlike Inverter Cores/Mudar Cores/Saturação, which had the exact
+   here - unlike Invert Colors/Color Adjustment/Saturation, which had the exact
    same "reach the navbar/drawer" requirement but can't share one ancestor
    like this without breaking fixed positioning; see D31 further down.
 
    D35 added two more entries to this same list, for the same reason as
    all the others: `.secondary-navigation .navigation` (the tab bar under
-   the page title - "Curso/Configurações/Participantes/...") and
+   the page title - "Course/Settings/Participants/...") and
    `.course-section .section-item` (each collapsible section's card) both
    hardcode their colours in the compiled Boost CSS too
    (`background-color: #fff` / `border: 1px solid #dee2e6`) instead of
@@ -2163,7 +2163,7 @@ Styleguide 11.
    it needed its own explicit entry rather than relying on that.
 
    D36 — a broader sweep (Playwright: walked the live DOM of 8 different
-   page types with Contraste ativo, flagging any visible element whose
+   page types with Contrast enabled, flagging any visible element whose
    resolved background/border colour was still a stock Bootstrap light
    grey) turned up 3 more instances of the exact same root cause, all
    confirmed against the *served* theme CSS (`theme/styles.php/...`, not
@@ -2313,7 +2313,7 @@ body.a11y-contrast-1 #page-wrapper .courseindex-item:focus .courseindex-chevron 
    never reaches it, see D37 on .btn-primary/.local-a11y-fab below) is
    deliberately left alone at levels 1/2: the admin's chosen accent
    already has reasonable contrast against both the dark and warm-light
-   palette, exactly like Contraste leaves Moodle's own primary links/
+   palette, exactly like Contrast leaves Moodle's own primary links/
    buttons alone at these two levels too. */
 body.a11y-contrast-1 .local-a11y-root {
     --a11y-bg: #1f1f1f;
@@ -2581,12 +2581,12 @@ body.a11y-color-3 .local-a11y-root {
     --a11y-filter-color: url(#local-a11y-tritanopia);
 }
 /* D40: Blue Light Filter (warm/amber tint) joins the same composition, as a
-   4th independent term - it does NOT interact with Contraste (recolours via
+   4th independent term - it does NOT interact with Contrast (recolours via
    design-token overrides on specific elements, not `filter` - see D37's
-   "Contraste" half), so no ordering question exists there; visually,
-   whatever colour Contraste already painted still gets warmed by this
+   "Contrast" half), so no ordering question exists there; visually,
+   whatever colour Contrast already painted still gets warmed by this
    filter afterwards, same as any other #page content - expected, not a
-   conflict. It DOES interact with Inverter Cores/Mudar Cores/Saturação
+   conflict. It DOES interact with Invert Colors/Color Adjustment/Saturation
    (all `filter`-based, same composition): deliberately placed LAST in the
    chain below so the amber tint is always the final transform applied to
    the already-inverted/desaturated/colour-simulated pixels, mirroring how
@@ -2689,18 +2689,18 @@ body.a11y-bluelight-3 #page {
    position:fixed descendants inside it (navbar/drawers) get a new
    containing block.
 
-   D95 originally scoped this to Inverter Cores alone, on the assumption
-   that Saturação/Mudar Cores/Filtro de Luz Azul "don't invert brightness,
+   D95 originally scoped this to Invert Colors alone, on the assumption
+   that Saturation/Color Adjustment/Blue Light Filter "don't invert brightness,
    so the strip stays close enough to white... never reported as broken" -
-   wrong for Filtro de Luz Azul specifically, reported by the user right
+   wrong for Blue Light Filter specifically, reported by the user right
    after: its sepia/saturate/brightness combination visibly warms white
    (confirmed live, sampled via a filtered 2D canvas rather than guessed -
    canvas and CSS `filter` share the same underlying implementation in
    Chromium - level 1/2/3 on #fff come out rgb(249,249,245)/
    rgb(242,242,234)/rgb(229,229,218), each measurably different from pure
    white), so the unfiltered strip reads as a visible seam against the
-   rest of the warmed page. Saturação (saturate()/grayscale()) and Mudar
-   Cores (the 3 colour-blindness SVG matrices) were re-checked the same
+   rest of the warmed page. Saturation (saturate()/grayscale()) and Color
+   Adjustment (the 3 colour-blindness SVG matrices) were re-checked the same
    way and do stay at pure/near-pure white from #fff, matching the
    original assumption for those two specifically - not extended here. */
 body.a11y-invert #page-wrapper {
@@ -2715,9 +2715,9 @@ body.a11y-bluelight-2 #page-wrapper {
 body.a11y-bluelight-3 #page-wrapper {
     background-color: #e5e5da;
 }
-/* D100: Saturação/Mudar Cores reported with the same seam, after all -
-   "D95 originally scoped this to Inverter Cores alone... Saturação
-   (saturate()/grayscale()) and Mudar Cores (the 3 colour-blindness SVG
+/* D100: Saturation/Color Adjustment reported with the same seam, after all -
+   "D95 originally scoped this to Invert Colors alone... Saturation
+   (saturate()/grayscale()) and Color Adjustment (the 3 colour-blindness SVG
    matrices) were re-checked the same way and do stay at pure/near-pure
    white from #fff... not extended here" above was only half the story.
    Re-measured live (canvas 2D sampling, same technique, `ctx.filter =
@@ -2735,7 +2735,7 @@ body.a11y-bluelight-3 #page-wrapper {
    above) only applies #page itself, forcing it to pure white while
    #page-wrapper's gap still shows <body>'s real #f8f9fa untouched - a
    mismatch that exists independently of what the filter does to white,
-   simply because #fff != #f8f9fa. Inverter Cores/Filtro de Luz Azul never
+   simply because #fff != #f8f9fa. Invert Colors/Blue Light Filter never
    showed this because their #page-wrapper fixes above *replace* the gap
    colour outright (black / the warmed tones) rather than relying on it
    matching <body>'s real colour by coincidence. Fix: same pattern, flat
@@ -2811,7 +2811,7 @@ body.a11y-cursor-2 .drawer-right * {
    secondary course tabs, drawer toggle buttons, breadcrumb, and the site
    footer - centring the remaining content to a plain 900px column.
 
-   Level 2 ("Leitura confortável"/"Comfortable reading") adds: strip the
+   Level 2 ("Comfortable reading") adds: strip the
    card look Boost's own CSS puts on .main-inner (#topofscroll) - solid
    white background, 8px border-radius - so the content blends into the
    page instead of floating on it as a distinct box (confirmed live this
@@ -2846,7 +2846,7 @@ body.a11y-cursor-2 .drawer-right * {
    today, so only the aria-hidden sweep could ever reach into one, but it's
    excluded explicitly rather than relying on that happening to stay true).
 
-   D52 also settles a conflict with Ocultar Imagens (hideImages): level 3
+   D52 also settles a conflict with Hide Images (hideImages): level 3
    already hides images by itself, so hideImages becomes redundant at that
    point - level 3 always wins (this rule here doesn't need to know or care
    whether hideImages is separately on), and the panel is kept honest about

@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "Pausar Animações" only stops CSS animations/transitions on its own
+ * "Pause Animations" only stops CSS animations/transitions on its own
  * (styles.css .a11y-pause-animations rules) - animated GIFs and <video
  * autoplay> aren't CSS animations, so neither one was actually affected by
  * the setting. This module covers both:
@@ -31,7 +31,7 @@
  *   (restarting the animation from frame 0) on stop().
  *
  * @module     local_a11y/pause_media
- * @description Pauses animated GIFs and autoplay <video> while Pausar Animações is active.
+ * @description Pauses animated GIFs and autoplay <video> while Pause Animations is active.
  * @author     Rodrigo Padilha Silveira <padilhars@gmail.com>
  * @author     Jerônimo Medina Madruga <jeronimo.madruga@gmail.com>
  * @copyright  Universidade Federal de Pelotas - UFPel
@@ -190,7 +190,7 @@ export const stop = () => {
 };
 
 /**
- * Toggle Pausar Animações' GIF/video handling on/off.
+ * Toggle Pause Animations' GIF/video handling on/off.
  *
  * @param {Boolean} isActive Whether GIFs/videos should be paused.
  * @return {void}

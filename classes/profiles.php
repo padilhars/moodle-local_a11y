@@ -58,7 +58,7 @@ class profiles {
             [
                 'id' => 'adhd', 'icon' => 'zap', 'tone' => 'pink',
                 'labelkey' => 'profile_adhd', 'desckey' => 'profile_adhd_desc',
-                // The focusMode value is set to 2 ("Leitura confortável"), not
+                // The focusMode value is set to 2 ("Comfortable reading"), not
                 // just on/off, since D52 - see DECISIONS.md D52.
                 'apply' => ['readingMask' => true, 'focusMode' => 2, 'pauseAnimations' => true],
             ],
@@ -80,7 +80,7 @@ class profiles {
             [
                 'id' => 'cognitive', 'icon' => 'brain', 'tone' => 'teal',
                 'labelkey' => 'profile_cognitive', 'desckey' => 'profile_cognitive_desc',
-                // The focusMode value is set to 2 ("Leitura confortável"), not
+                // The focusMode value is set to 2 ("Comfortable reading"), not
                 // just on/off, since D52 - see DECISIONS.md D52.
                 'apply' => [
                     'focusMode' => 2, 'pauseAnimations' => true, 'readableFont' => true,

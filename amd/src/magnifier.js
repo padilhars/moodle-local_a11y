@@ -34,8 +34,8 @@
  * the clone rather than shown or dropped outright, and D51 for why the
  * clone keeps `id="page"` (D42 originally stripped it; turned out the
  * theme's own layout CSS needs it, see buildClone() below) - and how it
- * stays in sync with Inverter Cores/Mudar Cores/Saturação/Filtro de Luz
- * Azul without ever re-cloning.
+ * stays in sync with Invert Colors/Color Adjustment/Saturation/Blue Light
+ * Filter without ever re-cloning.
  *
  * Zoom (2x/3x/4x) is a toggle-internal control, not a separate panel
  * stepper - see D42 for why. `+`/`-` cycle it; arrow keys move the lens;
@@ -167,7 +167,7 @@ const zoomBy = (direction) => {
  * one; pause_media.js's GIF-freeze matching a clone's `<img>` too is
  * harmless (freezing an already-inert decorative copy) and arguably more
  * consistent, not less. Nested ids were already left untouched before
- * this fix (Contraste's recolouring targets `#region-main` and friends by
+ * this fix (Contrast's recolouring targets `#region-main` and friends by
  * id - see D42) - this just extends the same accepted trade-off to the
  * outermost id too, for the same reason: the theme "just works" inside
  * the magnified view for free when its own id-scoped CSS can see it.
@@ -287,7 +287,7 @@ const scheduleRefresh = () => {
  *   scaling by `zoom` - solving `zoom * (lx, ly) + (ox, oy) = (R, R)` for
  *   the translate gives `(ox, oy) = (R - zoom*lx, R - zoom*ly)`.
  * - contentEl's `filter` is kept identical to #page's own computed filter,
- *   so Inverter Cores/Mudar Cores/Saturação/Filtro de Luz Azul (all
+ *   so Invert Colors/Color Adjustment/Saturation/Blue Light Filter (all
  *   `filter`-based - see D31/D37/D40) stay visually in sync inside the
  *   magnified view even though the clone lost #page's id (see buildClone
  *   docblock) and so can no longer be reached by the `#page`-selector

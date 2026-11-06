@@ -44,7 +44,7 @@ import Stats from 'local_a11y/stats';
  * factory function runs immediately once its dependencies resolve, whether
  * or not the exported sync()/start() is ever actually called) on every
  * single page, for every single user, regardless of whether that user ever
- * touches Navegação por Face, Comandos por Voz, Teclado Virtual, Lupa, etc.
+ * touches Face Navigation, Voice Commands, Virtual Keyboard, Magnifier, etc.
  * Measured (audit/03-qualidade-desempenho.md, section 1.7): ~60KB of
  * minified JS processed by default for the common case of a user who
  * enables none of these.
@@ -300,7 +300,7 @@ let voiceCallbacks = {};
  * `declineActivation`, called if the user declines the one-time privacy
  * notice shown before requesting camera access (compliance audit,
  * audit/04-conformidade.md item A5). Defined as a plain constant (unlike
- * voiceCallbacks above) because, unlike Comandos por Voz, it never needs
+ * voiceCallbacks above) because, unlike Voice Commands, it never needs
  * access to the full voice-command action table - just this one callback.
  */
 const faceCallbacks = {
@@ -657,8 +657,8 @@ export const init = async(loggedIn, collectStatsEnabled, sessionExists) => {
     // the name), which sits inside #page - one of the elements the colour
     // filters (styles.css, D31) apply `filter` to directly. `filter` makes
     // its element the containing block for position:fixed descendants, so
-    // if the FAB/panel stayed there, activating Inverter Cores/Mudar
-    // Cores/Saturação would silently break their (and the reset button's,
+    // if the FAB/panel stayed there, activating Invert Colors/Color
+    // Adjustment/Saturation would silently break their (and the reset button's,
     // etc.) fixed positioning - they'd scroll away with the page instead of
     // staying put, exactly like Moodle's own navbar/drawers did before D31.
     // Relocating them to be direct children of <body> - never inside
@@ -679,7 +679,7 @@ export const init = async(loggedIn, collectStatsEnabled, sessionExists) => {
     // broke for Moodle's message-drawer before D31 stopped filtering
     // #page-wrapper as a whole. Unlike the navbar/drawers, a .stickyfooter
     // element renders *inside* #page's own content (course format
-    // templates), so activating Inverter Cores/Mudar Cores/Saturação
+    // templates), so activating Invert Colors/Color Adjustment/Saturation
     // (which puts `filter` on #page - still needed there, for real page
     // content) recomputes its "parked" bottom:-Npx against #page's own
     // (much taller) box instead of the viewport, dropping it at some
@@ -698,7 +698,7 @@ export const init = async(loggedIn, collectStatsEnabled, sessionExists) => {
     // via a single listener on '#page' itself (component.init('#page',
     // ...), templates/local/content.mustache) and matches on
     // [data-action] - exactly what the bulk-edit toolbar's own
-    // Disponibilidade/Duplicar/Mover/Excluir buttons are. Pulling
+    // Availability/Duplicate/Move/Delete buttons are. Pulling
     // .stickyfooter permanently out of #page meant clicks on those
     // buttons could never bubble up to that delegated listener again -
     // they'd still take native focus (hence the focus ring reported) but
@@ -708,7 +708,7 @@ export const init = async(loggedIn, collectStatsEnabled, sessionExists) => {
     // one.
     //
     // Fixed by only relocating while it's actually needed - a colour
-    // filter (Inverter Cores/Mudar Cores/Saturação/daltonismo) is active -
+    // filter (Invert Colors/Color Adjustment/Saturation/colour-blindness) is active -
     // and restoring .stickyfooter to its original DOM position (tracked
     // per-element, since it's the *position*, not just "is it in #page",
     // that #page's delegated listener needs) the moment none of those are

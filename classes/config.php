@@ -149,9 +149,9 @@ class config {
     /**
      * Colours for the page-effect options that don't have a fixed one
      * (--local-a11y-accent is FAB/panel-only, see get_appearance() -
-     * these apply to page content itself): "Destacar Títulos", "Destacar
-     * Links", "Destacar Botões" (each independently configurable, not one
-     * shared colour) and "Guia de Leitura".
+     * these apply to page content itself): "Highlight Titles", "Highlight
+     * Links", "Highlight Buttons" (each independently configurable, not one
+     * shared colour) and "Reading Guide".
      *
      * @return string[] hex colours, keyed 'highlighttitles', 'highlightlinks', 'highlightbuttons', 'readingguide'.
      */

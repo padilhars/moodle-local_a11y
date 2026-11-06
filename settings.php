@@ -18,9 +18,9 @@
  * Admin settings for local_a11y.
  *
  * Organised in 4 sections, in the order an admin is likely to want to
- * configure them: Geral (whether/where the plugin runs at all, and which
- * of the 24 options users get), Botão Flutuante (FAB) (the entry point),
- * Painel (the settings surface itself), Cores (every colour the plugin
+ * configure them: General (whether/where the plugin runs at all, and which
+ * of the 24 options users get), Floating Button (FAB) (the entry point),
+ * Panel (the settings surface itself), Colors (every colour the plugin
  * lets an admin customise, grouped together instead of split across a
  * generic "Appearance" section). Every setting has a real description -
  * none are left blank.
@@ -51,7 +51,7 @@ if ($hassiteconfig) {
     $settings = new admin_settingpage('local_a11y', new lang_string('pluginname', 'local_a11y'));
     $ADMIN->add('localplugins', $settings);
 
-    // Geral ──────────────────────────────────────────────────────────────
+    // General ────────────────────────────────────────────────────────────
     // Whether/where the plugin runs, and which of the 24 options are
     // available to users at all (independent of any one user's own choices).
     $settings->add(new admin_setting_heading(
@@ -93,7 +93,7 @@ if ($hassiteconfig) {
         $featurechoices
     ));
 
-    // Integrações ────────────────────────────────────────────────────────
+    // Integrations ───────────────────────────────────────────────────────
     // Third-party plugin integrations - currently just VLibras (D54, plus
     // a later decision for sites that add VLibras without the Marketplace
     // plugin - see vlibrasmanual below). Always shown now, not gated behind
@@ -152,7 +152,7 @@ if ($hassiteconfig) {
         ));
     }
 
-    // Botão Flutuante (FAB) ─────────────────────────────────────────────
+    // Floating Button (FAB) ─────────────────────────────────────────────
     // The entry point rendered on every page: where it sits, what it
     // looks like.
     $settings->add(new admin_setting_heading(
@@ -196,7 +196,7 @@ if ($hassiteconfig) {
         ]
     ));
 
-    // Painel ─────────────────────────────────────────────────────────────
+    // Panel ──────────────────────────────────────────────────────────────
     // The settings surface itself: how it's presented and what it contains
     // beyond the option list.
     $settings->add(new admin_setting_heading(
@@ -244,11 +244,11 @@ if ($hassiteconfig) {
         PARAM_RAW
     ));
 
-    // Cores ──────────────────────────────────────────────────────────────
+    // Colors ─────────────────────────────────────────────────────────────
     // Every colour the plugin lets an admin customise, grouped in one
     // place: the FAB/panel's own accent, plus the 4 page-effect colours
-    // used by "Destacar Títulos", "Destacar Links", "Destacar Botões" and
-    // "Guia de Leitura" (each independent, so an admin can match their
+    // used by "Highlight Titles", "Highlight Links", "Highlight Buttons"
+    // and "Reading Guide" (each independent, so an admin can match their
     // own branding for each effect instead of one colour doing double
     // duty everywhere).
     $settings->add(new admin_setting_heading(
@@ -306,10 +306,10 @@ if ($hassiteconfig) {
     $readingguide->set_updatedcallback('local_a11y_check_readingguidecolor_contrast');
     $settings->add($readingguide);
 
-    // Estatísticas ───────────────────────────────────────────────────────
-    // Contadores de uso agregados e anônimos (D47) - desligado por padrão;
-    // o admin precisa optar explicitamente. Ver classes/stats.php e
-    // admin/stats.php (relatório, protegido por local/a11y:viewstats).
+    // Statistics ─────────────────────────────────────────────────────────
+    // Aggregate, anonymous usage counters (D47) - off by default; the
+    // admin must explicitly opt in. See classes/stats.php and
+    // admin/stats.php (report, protected by local/a11y:viewstats).
     $settings->add(new admin_setting_heading(
         'local_a11y/statsheading',
         new lang_string('settings_stats', 'local_a11y'),

@@ -44,21 +44,22 @@ $capabilities = [
         ],
     ],
 
-    // DECISÃO: local/a11y:configure removido (dead-code/security audit) -
-    // era declarada aqui mas nunca checada via has_capability() em nenhum
-    // lugar do plugin; settings.php já é protegido pelo mecanismo padrão do
-    // Moodle (admin tree / moodle/site:config), então a capability não
-    // controlava nada e só confundiria um admin que a atribuísse esperando
-    // algum efeito. Ver version.php - o bump de versão aqui é necessário
-    // para o admin/cli/upgrade.php de fato remover a capability órfã do
-    // banco (update_capabilities() só roda no upgrade quando a versão muda).
+    // DECISION: local/a11y:configure removed (dead-code/security audit) -
+    // it was declared here but never checked via has_capability() anywhere
+    // in the plugin; settings.php is already protected by Moodle's own
+    // standard mechanism (admin tree / moodle/site:config), so the
+    // capability controlled nothing and would only confuse an admin who
+    // assigned it expecting some effect. See version.php - the version
+    // bump there is required for admin/cli/upgrade.php to actually remove
+    // the orphaned capability from the database (update_capabilities()
+    // only runs on upgrade when the version changes).
 
     // Can view the aggregate usage-stats report (admin/stats.php, D47).
-    // Deliberately narrower than moodle/site:config: a pedido explícito,
-    // concedida por padrão só ao arquétipo 'manager' - nem editingteacher
-    // nem admin aparecem aqui de propósito (site admins sempre passam em
-    // has_capability() de qualquer forma, via is_siteadmin(), então não
-    // precisam de entrada própria).
+    // Deliberately narrower than moodle/site:config: at the user's explicit
+    // request, granted by default only to the 'manager' archetype - neither
+    // editingteacher nor admin appear here on purpose (site admins always
+    // pass has_capability() anyway, via is_siteadmin(), so they don't need
+    // an entry of their own).
     'local/a11y:viewstats' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
