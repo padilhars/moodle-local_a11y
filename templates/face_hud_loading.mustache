@@ -18,7 +18,10 @@
     @template local_a11y/face_hud_loading
 
     Face Navigation HUD's "loading model" state: a spinning icon and a
-    translated status message.
+    translated status message. The spin animation itself
+    (local-a11y-face-spin) is a plain CSS @keyframes rule in styles.css,
+    not a <style> tag here - a <style> element isn't valid as a child of
+    <body>, which moodle-plugin-ci's mustache lint actually validates.
 
     @description Markup for Face Navigation HUD's loading state.
     @package    Moodle
@@ -38,10 +41,9 @@
         "loadingtext": "Loading face detection model…"
     }
 }}
-<style>@keyframes a11y-face-spin{to{transform:rotate(360deg)}}</style>
 <div style="padding:12px;color:#6b7280;display:flex;align-items:center;gap:8px">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" style="animation:a11y-face-spin 1s linear infinite;flex-shrink:0">
+        stroke-linecap="round" style="animation:local-a11y-face-spin 1s linear infinite;flex-shrink:0">
         <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
     </svg>
     {{loadingtext}}

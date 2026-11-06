@@ -1001,6 +1001,19 @@ Styleguide 5.6.
     box-shadow: none;
 }
 
+/* Face Navigation HUD's loading-spinner icon (templates/face_hud_loading.mustache).
+   Lives here, not injected via a <style> tag in the template, both because
+   it's static/global (no reason to re-declare it per render) and because
+   moodle-plugin-ci's mustache lint renders each template's markup inside a
+   full HTML document and validates it - a <style> element is not valid as
+   a child of <body> there, which a plain innerHTML string never surfaced
+   until this became a real .mustache template (issue #5/D106). */
+@keyframes local-a11y-face-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes local-a11y-option-pulse {
     0%,
     100% {

@@ -4,6 +4,12 @@ All notable changes to `local_a11y` are documented here.
 
 ## [Unreleased]
 
+## [1.2.6] - 2026-11-06
+
+### Fixed
+
+- `grunt mustache` (`moodle-plugin-ci mustache`, run by CI) failed on all v1.2.5 jobs: `templates/face_hud_loading.mustache` (new in v1.2.5) rendered a `<style>@keyframes ...</style>` tag directly in its markup, which the CI's HTML5 validator correctly rejects - `<style>` is not a valid child of `<body>`. This was invisible before because the same animation used to be a plain JS string, never actually HTML-validated. Moved the `@keyframes` rule into `styles.css` (as `local-a11y-face-spin`, a permanent, static rule - no reason to redeclare it per render) and removed the inline `<style>` tag from the template.
+
 ## [1.2.5] - 2026-11-06
 
 Addresses all 5 issues opened by the Moodle Plugins Directory human reviewer on the v1.2.4 submission (see DECISIONS.md D106 for the full rationale of each):
